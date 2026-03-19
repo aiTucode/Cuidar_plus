@@ -1,0 +1,442 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:'Poppins', sans-serif;
+  background: #b9e3ff;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#1f3b2d;
+}
+
+#root{
+  width:100%;
+}
+
+.container{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:24px;
+}
+
+.card{
+  width:100%;
+  max-width:520px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  border:1px solid rgba(255,255,255,0.6);
+  border-radius:28px;
+  padding:32px 28px;
+  box-shadow:0 20px 50px rgba(41, 88, 60, 0.18);
+}
+
+/* ── Usuário logado ── */
+.usuarioLogado{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#f1fbf5;
+  border:1px solid #cfe6d7;
+  border-radius:14px;
+  padding:10px 14px;
+  margin-bottom:20px;
+  font-size:14px;
+  font-weight:600;
+  color:#1f6f50;
+}
+
+.btnLogout{
+  width:auto;
+  padding:6px 14px;
+  font-size:13px;
+  background:#ffe6e6;
+  color:#c0392b;
+  border:1px solid #f5c6c6;
+  border-radius:10px;
+}
+
+.btnLogout:hover{
+  background:#fdd;
+  transform:translateY(-1px);
+}
+
+.logo{
+  width:220px;
+  max-width:80%;
+  display:block;
+  margin:0 auto 18px auto;
+}
+
+h1, h2{
+  text-align:center;
+  color:#1f6f50;
+  font-weight:800;
+  letter-spacing:0.3px;
+}
+
+h2{
+  margin-bottom:18px;
+  font-size:28px;
+}
+
+p{
+  text-align:center;
+  color:#4d6b5b;
+  font-weight:600;
+  margin-top:8px;
+}
+
+.form{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  margin-top:18px;
+}
+
+input,
+textarea{
+  width:100%;
+  border:1.5px solid #d4e7da;
+  background:#ffffff;
+  border-radius:14px;
+  padding:14px 16px;
+  font-size:15px;
+  font-family:'Poppins', sans-serif;
+  color:#244636;
+  outline:none;
+  transition:0.2s ease;
+}
+
+input:focus,
+textarea:focus{
+  border-color:#55b983;
+  box-shadow:0 0 0 4px rgba(85, 185, 131, 0.15);
+}
+
+input::placeholder,
+textarea::placeholder{
+  color:#8aa596;
+  font-weight:500;
+}
+
+textarea{
+  resize:none;
+  min-height:120px;
+}
+
+.buttons{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-top:28px;
+}
+
+button{
+  width:100%;
+  border:none;
+  border-radius:16px;
+  padding:14px 18px;
+  font-size:15px;
+  font-family:'Poppins', sans-serif;
+  font-weight:700;
+  cursor:pointer;
+  transition:transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(50, 96, 69, 0.16);
+}
+
+button:active{
+  transform:translateY(0);
+}
+
+button:disabled{
+  opacity:0.6;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.buttons button:first-child,
+.form button[type="submit"]{
+  background:linear-gradient(135deg, #43a86f, #2f8f5c);
+  color:white;
+}
+
+.buttons button:last-child{
+  background:#eef8f1;
+  color:#1f6f50;
+  border:1px solid #cfe6d7;
+}
+
+.form button[type="button"]{
+  background:#eef8f1;
+  color:#1f6f50;
+  border:1px solid #cfe6d7;
+}
+
+.section{
+  background:linear-gradient(180deg, #f9fffb 0%, #f1fbf5 100%);
+  border:1px solid #dcefe3;
+  border-radius:20px;
+  padding:18px;
+  margin-top:16px;
+  box-shadow:0 8px 20px rgba(62, 114, 82, 0.06);
+}
+
+.section p{
+  text-align:center;
+  margin-bottom:10px;
+  color:#1f6f50;
+  font-weight:700;
+}
+
+.section label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+  color:#395b4a;
+  font-weight:600;
+}
+
+input[type="checkbox"],
+input[type="radio"]{
+  width:auto;
+  transform:scale(1.15);
+  accent-color:#2f8f5c;
+  cursor:pointer;
+}
+
+.addMedicacao{
+  display:flex;
+  gap:10px;
+  margin-top:8px;
+}
+
+.addMedicacao input{
+  flex:1;
+}
+
+.addMedicacao button{
+  width:auto;
+  min-width:120px;
+  background:#1f6f50;
+  color:white;
+}
+
+.medicacaoItem{
+  background:#ffffff;
+  border:1px solid #dcefe3;
+  border-radius:16px;
+  padding:16px;
+  margin-top:18px;
+  box-shadow:0 6px 16px rgba(62, 114, 82, 0.06);
+}
+
+.medNome{
+  text-align:left;
+  color:#1f6f50;
+  font-weight:800;
+  font-size:15px;
+  margin-bottom:10px;
+}
+
+.diaMedicacao{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:12px;
+  color:#4c6e5c;
+  font-weight:600;
+}
+
+/* ── Mensagens de feedback ── */
+.mensagem-erro{
+  text-align:center;
+  color:#c0392b;
+  background:#ffe6e6;
+  border:1px solid #f5c6c6;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:600;
+  font-size:14px;
+}
+
+.mensagem-sucesso{
+  text-align:center;
+  color:#1f8a4c;
+  background:#e8f7ed;
+  border:1px solid #b8e0c8;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:600;
+  font-size:14px;
+}
+
+/* ── Relatórios ── */
+.listaRelatorios{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  margin-top:20px;
+  margin-bottom:20px;
+}
+
+.cardRelatorio{
+  background:#ffffff;
+  border:1px solid #d9e8f2;
+  border-radius:18px;
+  padding:18px;
+  text-align:left;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  cursor:pointer;
+  transition:transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardRelatorio:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 24px rgba(0,0,0,0.08);
+}
+
+.cardRelatorio h3{
+  color:#1f6f50;
+  margin-bottom:12px;
+  font-size:18px;
+}
+
+.cardRelatorio p{
+  text-align:left;
+  margin:6px 0;
+  color:#395b4a;
+  font-weight:500;
+}
+
+.cardRelatorioDetalhado{
+  background:#ffffff;
+  border:1px solid #d9e8f2;
+  border-radius:18px;
+  padding:20px;
+  text-align:left;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  margin:20px 0;
+}
+
+.statusRelatorio{
+  display:inline-block;
+  margin-top:12px;
+  padding:8px 12px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.statusRelatorio.estavel{
+  background:#e8f7ed;
+  color:#1f8a4c;
+}
+
+.statusRelatorio.acompanhamento{
+  background:#fff6df;
+  color:#b78103;
+}
+
+.statusRelatorio.atencao{
+  background:#ffe6e6;
+  color:#c0392b;
+}
+
+.topoRelatorio{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.infoTopoRelatorio{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  text-align:right;
+  gap:2px;
+}
+
+.enderecoPaciente{
+  font-size:12px;
+  color:#6b7f74;
+  font-weight:600;
+}
+
+.acsPaciente{
+  font-size:11px;
+  color:#8a9b92;
+  font-weight:500;
+}
+
+.filtroRelatorio{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin:20px 0;
+  text-align:left;
+}
+
+.filtroRelatorio label{
+  font-weight:700;
+  color:#1f6f50;
+}
+
+.filtroRelatorio select{
+  width:100%;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1.5px solid #d4e7da;
+  font-family:'Poppins', sans-serif;
+  font-size:15px;
+  color:#244636;
+  background:white;
+  outline:none;
+}
+
+.dataRelatorio{
+  font-size:13px;
+  font-weight:700;
+  color:#3d7ea6;
+  background:#e8f4fb;
+  padding:6px 10px;
+  border-radius:10px;
+}
+
+@media (max-width:600px){
+  .card{
+    padding:24px 18px;
+    border-radius:22px;
+  }
+
+  .logo{
+    width:190px;
+  }
+
+  h2{
+    font-size:24px;
+  }
+
+  .addMedicacao{
+    flex-direction:column;
+  }
+
+  .addMedicacao button{
+    width:100%;
+  }
+}
