@@ -24,15 +24,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Bcrypt ────────────────────────────────────────────────────────────────────
-
 def hash_senha(senha: str) -> str:
     return bcrypt.hashpw(senha.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 def verificar_senha(senha: str, hash: str) -> bool:
     return bcrypt.checkpw(senha.encode("utf-8"), hash.encode("utf-8"))
-
-# ── Dependência de banco ──────────────────────────────────────────────────────
 
 def get_db():
     db = SessionLocal()
@@ -40,8 +36,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-# ── Admins fixos ──────────────────────────────────────────────────────────────
 
 ADMINS_FIXOS = [
     {"nome": "Túlio",      "cargo": "ACS",        "cpf": "00000000001", "senha": "admin123"},
@@ -67,8 +61,6 @@ def criar_admins_fixos():
     finally:
         db.close()
 
-# ── Helpers de relatório ──────────────────────────────────────────────────────
-
 def serializar_medicacoes(medicacoes):
     if not medicacoes:
         return None
@@ -86,17 +78,15 @@ def relatorio_para_response(relatorio):
         "copos_agua": relatorio.copos_agua,
         "medicacoes": desserializar_medicacoes(relatorio.medicacoes),
         "observacao": relatorio.observacao,
+        "status": relatorio.status,
         "data_envio": relatorio.data_envio,
         "paciente_id": relatorio.paciente_id,
+        "nome_paciente": relatorio.paciente.nome if relatorio.paciente else None,
     }
-
-# ── Rota inicial ──────────────────────────────────────────────────────────────
 
 @app.get("/")
 def rota_inicial():
     return {"mensagem": "Backend do Cuidar+ funcionando"}
-
-# ── Login ─────────────────────────────────────────────────────────────────────
 
 @app.post("/auth/login", response_model=LoginResponse)
 def login(dados: LoginRequest, db: Session = Depends(get_db)):
@@ -113,8 +103,6 @@ def login(dados: LoginRequest, db: Session = Depends(get_db)):
         return {"tipo": "paciente", "id": paciente.id, "nome": paciente.nome, "cargo": None}
 
     raise HTTPException(status_code=401, detail="CPF ou senha incorretos.")
-
-# ── Pacientes ─────────────────────────────────────────────────────────────────
 
 @app.post("/pacientes", response_model=PacienteResponse)
 def criar_paciente(paciente: PacienteCreate, db: Session = Depends(get_db)):
@@ -139,8 +127,6 @@ def buscar_paciente(paciente_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Paciente não encontrado.")
     return paciente
 
-# ── Relatórios ────────────────────────────────────────────────────────────────
-
 @app.post("/relatorios", response_model=RelatorioResponse)
 def criar_relatorio(relatorio: RelatorioCreate, db: Session = Depends(get_db)):
     if not db.query(Paciente).filter(Paciente.id == relatorio.paciente_id).first():
@@ -157,7 +143,16 @@ def criar_relatorio(relatorio: RelatorioCreate, db: Session = Depends(get_db)):
 def listar_relatorios(db: Session = Depends(get_db)):
     return [relatorio_para_response(r) for r in db.query(Relatorio).all()]
 
-@app.get("/relatorios/{paciente_id}", response_model=list[RelatorioResponse])
+@app.get("/relatorios/paciente/{paciente_id}", response_model=list[RelatorioResponse])
 def relatorios_por_paciente(paciente_id: int, db: Session = Depends(get_db)):
     relatorios = db.query(Relatorio).filter(Relatorio.paciente_id == paciente_id).all()
     return [relatorio_para_response(r) for r in relatorios]
+
+@app.patch("/relatorios/{relatorio_id}/status")
+def atualizar_status(relatorio_id: int, body: dict, db: Session = Depends(get_db)):
+    relatorio = db.query(Relatorio).filter(Relatorio.id == relatorio_id).first()
+    if not relatorio:
+        raise HTTPException(status_code=404, detail="Relatório não encontrado.")
+    relatorio.status = body.get("status")
+    db.commit()
+    return {"mensagem": "Status atualizado."}
