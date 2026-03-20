@@ -3,6 +3,7 @@ import bcrypt
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
+from analisador import analisar_risco
 
 from database import SessionLocal, engine, Base
 from models import Paciente, Admin, Relatorio
@@ -146,8 +147,16 @@ def buscar_paciente(paciente_id: int, db: Session = Depends(get_db)):
 def criar_relatorio(relatorio: RelatorioCreate, db: Session = Depends(get_db)):
     if not db.query(Paciente).filter(Paciente.id == relatorio.paciente_id).first():
         raise HTTPException(status_code=404, detail="Paciente não encontrado.")
+
     dados = relatorio.model_dump()
     dados["medicacoes"] = serializar_medicacoes(relatorio.medicacoes)
+
+    # Analisa o risco automaticamente com o modelo
+    dados["status"] = analisar_risco(
+        relatorio.como_se_sente,
+        relatorio.observacao or ""
+    )
+
     novo_relatorio = Relatorio(**dados)
     db.add(novo_relatorio)
     db.commit()
