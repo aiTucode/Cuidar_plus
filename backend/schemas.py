@@ -2,9 +2,11 @@ from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime
 
+
 class MedicacaoItem(BaseModel):
     nome: str
     dias_tomados: List[str] = []
+
 
 class PacienteCreate(BaseModel):
     nome: str
@@ -16,6 +18,7 @@ class PacienteCreate(BaseModel):
     senha: str
     responsavel: Optional[str] = None
     doencas_cronicas: Optional[str] = None
+
 
 class PacienteResponse(BaseModel):
     id: int
@@ -31,12 +34,15 @@ class PacienteResponse(BaseModel):
     class Config:
         from_attributes = True
 
+
 class RelatorioCreate(BaseModel):
     como_se_sente: str
     copos_agua: int
     medicacoes: Optional[List[MedicacaoItem]] = None
     observacao: Optional[str] = None
+    status: Optional[str] = "Estável"
     paciente_id: int
+
 
 class RelatorioResponse(BaseModel):
     id: int
@@ -44,15 +50,19 @@ class RelatorioResponse(BaseModel):
     copos_agua: int
     medicacoes: Optional[List[MedicacaoItem]] = None
     observacao: Optional[str] = None
+    status: Optional[str] = None
     data_envio: datetime
     paciente_id: int
+    nome_paciente: Optional[str] = None
 
     class Config:
         from_attributes = True
 
+
 class LoginRequest(BaseModel):
     cpf: str
     senha: str
+
 
 class LoginResponse(BaseModel):
     tipo: str

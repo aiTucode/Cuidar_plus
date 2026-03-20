@@ -1,3 +1,5 @@
+// Troque para "http://127.0.0.1:8000" ao rodar localmente
+// Troque para "http://SEU_IP:8000" ao testar no celular
 const BASE_URL = "http://127.0.0.1:8000";
 
 export async function cadastrarPaciente(dadosPaciente) {
@@ -48,8 +50,19 @@ export async function buscarRelatorios() {
 }
 
 export async function buscarRelatoriosPaciente(pacienteId) {
-  const resposta = await fetch(`${BASE_URL}/relatorios/${pacienteId}`);
+  const resposta = await fetch(`${BASE_URL}/relatorios/paciente/${pacienteId}`);
   const dados = await resposta.json();
   if (!resposta.ok) throw new Error(dados.detail || "Erro ao buscar relatórios.");
+  return dados;
+}
+
+export async function atualizarStatus(relatorioId, status) {
+  const resposta = await fetch(`${BASE_URL}/relatorios/${relatorioId}/status`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+  const dados = await resposta.json();
+  if (!resposta.ok) throw new Error(dados.detail || "Erro ao atualizar status.");
   return dados;
 }

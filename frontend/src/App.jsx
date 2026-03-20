@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import RelatorioPaciente from "./components/RelatorioPaciente";
 import RelatoriosRecebidos from "./components/RelatoriosRecebidos";
 
+// Telas onde o cabeçalho com usuário logado não aparece
 const TELAS_SEM_CABECALHO = ["home", "cadastro", "login"];
 
 function App() {
@@ -44,11 +45,7 @@ function App() {
           {tela === "login" && <Login setTela={setTela} setUsuario={setUsuario} />}
 
           {tela === "relatorioPaciente" && usuario?.tipo === "paciente" && (
-            <RelatorioPaciente
-              setTela={setTela}
-              pacienteId={usuario.id}
-              medicacoesFixas={usuario.medicacoes_fixas || []}
-            />
+            <RelatorioPaciente setTela={setTela} pacienteId={usuario.id} />
           )}
           {tela === "relatorioPaciente" && usuario?.tipo !== "paciente" && (
             <p className="mensagem-erro">Acesso restrito a pacientes.</p>
